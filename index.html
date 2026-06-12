@@ -170,24 +170,13 @@
   .step .gnum{
     flex:0 0 auto;width:38px;height:38px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;font-weight:800;font-size:17px;
-    background:#fff;border:2px solid var(--line);color:var(--muted);
-    box-shadow:0 1px 2px rgba(60,45,20,.08);
+    background:linear-gradient(180deg,#d4b56a,#b8923f);color:#fff;border:2px solid var(--gold-deep);
+    box-shadow:0 2px 6px rgba(168,133,47,.4);
   }
   .step .gtxt{flex:1;display:flex;flex-direction:column;}
   .step .gtxt b{font-size:16px;font-weight:700;letter-spacing:.01em;}
   .step .gtxt small{font-size:13.5px;color:#6f675b;line-height:1.45;margin-top:3px;}
-  .gnow{
-    flex:0 0 auto;font-size:12px;color:#fff;font-weight:700;white-space:nowrap;
-    background:var(--gold-deep);padding:6px 12px;border-radius:999px;
-    box-shadow:0 2px 5px rgba(168,133,47,.4);
-  }
-  /* estados del paso */
-  .step.active{border-color:var(--gold);box-shadow:0 5px 18px rgba(194,162,90,.22);}
-  .step.active .step-hd{background:linear-gradient(180deg,#fffaf0,#fdf3df);border-bottom-color:#ecd9a8;}
-  .step.active .gnum{
-    background:linear-gradient(180deg,#d4b56a,#b8923f);color:#fff;border-color:var(--gold-deep);
-    box-shadow:0 2px 6px rgba(168,133,47,.4);
-  }
+  /* paso completo (confirmación) */
   .step.done{border-color:#cfe7d8;}
   .step.done .step-hd{background:linear-gradient(180deg,#f6fbf7,#edf6ef);border-bottom-color:#cfe7d8;}
   .step.done .gnum{
@@ -195,7 +184,6 @@
     box-shadow:0 2px 6px rgba(31,122,77,.3);
   }
   .step.done .gtxt b{color:#236b46;}
-  .step.todo .step-hd{opacity:.6;}
   /* contenido dentro del contenedor: quitar márgenes/bordes propios */
   .step-bd .groups{max-width:none;margin:0;padding:0;}
   .step-bd .thirds-wrap{max-width:none;margin:0;padding:0;}
@@ -593,15 +581,11 @@ function renderGuide(){
         : "Toca al equipo que gana cada llave: irá avanzando ronda por ronda hasta el campeón. Desliza el cuadro de lado a lado para verlo completo.",
       done: !!champ },
   ];
-  const active = steps.findIndex(s=> !s.done);
   steps.forEach((s,i)=>{
-    const cls = s.done ? "done" : (i===active ? "active" : "todo");
     const mark = s.done ? "✓" : (i+1);
-    const now = (i===active) ? `<span class="gnow">Estás aquí 👇</span>` : "";
     s.el.innerHTML = `<span class="gnum">${mark}</span>
-      <span class="gtxt"><b>Paso ${i+1}: ${s.t}</b><small>${s.d}</small></span>
-      ${now}`;
-    s.el.parentElement.className = "step " + cls;
+      <span class="gtxt"><b>Paso ${i+1}: ${s.t}</b><small>${s.d}</small></span>`;
+    s.el.parentElement.className = "step" + (s.done ? " done" : "");
   });
 }
 
